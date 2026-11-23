@@ -3,10 +3,10 @@
 This lab project was created for the Compuer Security course at TMU.
 
 Authors (by last name):
-Shaheed Headley
-Alexandra Julian
-Alex Nielsen
-Daniel Trakas
+- Shaheed Headley
+- Alexandra Julian
+- Alex Nielsen
+- Daniel Trakas
 
 # Lab Project Structure
 
@@ -54,7 +54,7 @@ CMake will be used for cross-platform compilation. Will be written soon.
 # Part 4: Real-Life Password Crackers
 
 ## Brief Description
-There is a tool called ophcrack that can crack real-life passwords; using LMHash to generate hashes, we can use ophcrack (and rainbow tables if needed) to find the original passwords.
+There is a tool called ophcrack that can crack real-life passwords; using LMHash to generate hashes, we can use ophcrack (and rainbow tables if needed) to find the original passwords
 
 ## Build Instructions
 No need to build. Screenshots will be provided in the subfolder.
