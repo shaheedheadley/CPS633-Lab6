@@ -3,8 +3,8 @@
 
 // where user data will be stored
 #define TABLE_FILE "../user_table.txt"
-#define MAX_LINE_LEN 512
-#define MAX_WORD_LEN 256
+#define MAX_LINE_LEN 64
+#define MAX_WORD_LEN 32
 
 // imported encryption function from the lab document
 void E(char *in, char *out)
@@ -21,7 +21,7 @@ int create_table() {
     FILE *fp = fopen(TABLE_FILE, "w");
 
     // table header with dynamic padding
-    fprintf(fp, "%0s %16s %16s\n", "USERID", "PASSWORD", "HASH");
+    fprintf(fp, "%-15s %-15s %-32s\n", "USERID", "PASSWORD", "HASH");
     fprintf(fp, "--------------------------------------------------------------------\n");
 
     fclose(fp);
@@ -62,7 +62,7 @@ int add_user(char* userid) {
 
     printf("%s\n", user_hash);
 
-    fprintf(fp, "%0s %15s %15s\n", userid, user_pass, user_hash);
+    fprintf(fp, "%-15s %-15s %-15s\n", userid, user_pass, user_hash);
 }
 
 int auth_user(char* userid) {
