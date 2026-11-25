@@ -1,3 +1,5 @@
+Note: all referenced figures are located in the screenshots/ directory.
+
 Using the LM Hash generator, we retrieve LM Hashes for short and simple alphanumeric passwords and try to crack them with brute force using ophcrack. This method works well for passwords under five characters, but causes the password cracker to time out for longer inputs (see Figure 1, 2, 3).
 
 
