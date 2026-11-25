@@ -74,13 +74,18 @@ int auth_user(char* userid, char* user_hash) {
     char hash_output[32];
     E(pass_input, hash_output);
     
-    printf("%s, %s", hash_output, user_hash);
-
-    if (strcmp(user_hash, hash_output) == 0) {
-        printf("user authenticated\n");
+    for (int i=0; i < 2; i++) {
+        if (strcmp(user_hash, hash_output) == 0) {
+            printf("user authenticated!\n");
+            return 0;
+        }
+        
+        printf("Sorry, try again.\nEnter your password: ");
+        scanf("%31s", pass_input);
     }
-
-    return 0;
+    
+    printf("Failed to authenticate: 3 attempts failed.\n");
+    return 1;
 }
 
 // function to get a user's hash if the user exists
