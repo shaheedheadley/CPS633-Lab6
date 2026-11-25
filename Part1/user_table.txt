@@ -1,2 +1,3 @@
-USERID        PASSWORD            HASH
+USERID         PASSWORD                             HASH
 --------------------------------------------------------------------
+daniel123            poop          HXÿ»1

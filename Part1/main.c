@@ -15,83 +15,89 @@ void E(char *in, char *out)
     out[3]=((in[3]&0x80)^((in[2]<<7)&0x80))^(((in[3]>>1)&0x7F)^((in[3])&0x7F));
 }
 
-// check if the table (even if empty) exists in the file
-int check_table() {
-    FILE *fp = fopen(TABLE_FILE, "r");
-
-    // sanity check to verify file exists
-    if (fp == NULL) {
-        printf("Error opening file.\n");
-        return 1; // return error code
-    }
-
-    printf("%c", fgetc(fp));
-}
-
 // function to create table if running for the first time
 int create_table() {
     // open the file in write mode
     FILE *fp = fopen(TABLE_FILE, "w");
 
+    // table header with dynamic padding
+    fprintf(fp, "%0s %16s %16s\n", "USERID", "PASSWORD", "HASH");
+    fprintf(fp, "--------------------------------------------------------------------\n");
+
+    fclose(fp);
+    return 0;
+}
+
+// check if the table (even if empty) exists in the file
+int check_file() {
+    FILE *fp = fopen(TABLE_FILE, "r");
+
     // sanity check to verify file exists
     if (fp == NULL) {
         printf("Error opening file.\n");
         return 1; // return error code
     }
 
-    // table header with dynamic padding
-    fprintf(fp, "%0s %15s %15s\n", "USERID", "PASSWORD", "HASH");
-    fprintf(fp, "--------------------------------------------------------------------\n");
+    int ch = fgetc(fp);
 
-    fclose(fp);
+    if (ch == EOF) {
+        create_table();
+    }
+
+    return 0;
 }
 
 // function to add a new user if user does not exist
-int add_user() {
+int add_user(char* userid) {
     // open the file in write mode
-    FILE *fp = fopen(TABLE_FILE, "w");
-    
-    // sanity check to verify file exists
-    if (fp == NULL) {
-        printf("Error opening file.\n");
-        return 1;
-    }
+    FILE *fp = fopen(TABLE_FILE, "a");
+ 
+    // ask for password
+    char user_pass[32]; // max 32 char password
+    printf("Enter your desired password: ");
+    scanf("%31s", user_pass);
 
-    
+    char user_hash[64];
+    E(user_pass, user_hash);
+
+    printf("%s\n", user_hash);
+
+    fprintf(fp, "%0s %15s %15s\n", userid, user_pass, user_hash);
+}
+
+int auth_user(char* userid) {
+    return 0;
 }
 
 // function to get a user's hash if the user exists
-char find_user(int userid) {
+int find_user(char* userid) {
     // open the file in read mode
     FILE *fp = fopen(TABLE_FILE, "r");
-
+    
     char line_buffer[MAX_LINE_LEN];
     char first_word[MAX_WORD_LEN];
 
-    while(fgets(line_buffer, sizeof(line_buffer), fp)) {
-        printf("%s\n", line_buffer);
+    while (fgets(line_buffer, sizeof(line_buffer), fp)) {
+        sscanf(line_buffer, "%100s", first_word);
+        if (first_word == userid) {
+            auth_user(userid);
+            return 1; // user was found and has been authenticated
+        }
     }
 
-    return "c";
+    add_user(userid);
+    return 0; // user was not found and has been added
 }
 
 int main() {
-    int userid;
+    check_file();
+    
+    char userid[16]; // max 16 character userid
 
     // Take in user id from user
     printf("Enter your userid: ");
-    scanf("%d", &userid);
+    scanf("%15s", &userid);
     
-    // Check if user exists and stores their password in password
-    char user_pass[12] = find_user(userid);
-
-    // if user not found, add the user and ask for password
-    printf("Enter your desired password: ");
-    scanf("%s\n", user_pass);
-
-    // if user is found, use their password to compare and authenticate the current user
-    
-
-    printf("%d\n", userid);
-    create_table();
+    // Check if user exists and authenticates them
+    find_user(userid);
 }
