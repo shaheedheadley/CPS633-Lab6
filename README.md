@@ -19,7 +19,10 @@ This lab contains 4 parts, each implemented independently:
 ## Part 1: OLMHash Password Scheme
 
 ### Brief Description
-LMHash (and NTLMHash v1) were password schemes that was used in older Windows systems; this is an implementation that mimics their functionality.
+LMHash (and NTLMHash v1) were password schemes that was used in older Windows systems; this is an implementation that mimics their functionality. We implemented a mimic of this kind of password scheme in `Part1/`.
+
+### Build Instructions
+Located inside `Part1/` directory.
 
 ## Part 2: Challenge-Response (Online) Authentication
 
@@ -28,16 +31,21 @@ The purpose of challenge-response authentication is to verify users without havi
 1. Server: Generates a challenge, which could be a random number or data that is only used once 
 2. Client: Uses the challenge and a shared secret (passwords or keys that the server may know) to generate a response
 
-After the challenge and response have been generated, we can verify the response by comparing it with the expected result or signature of the response; authenticating the user.
+After the challenge and response have been generated, we can verify the response by comparing it with the expected result or signature of the response; authenticating the user. We implemented a program that mimics this security system in `Part2/`.
+
+### Build Instructions
+Located inside `Part2/` directory.
 
 ## Part 3: Password Cracker
 
 ### Brief Description
 Dictionary attacks can be used for subsets of password hashes, by listing and searching through all of the possible encrypted results of a password in a system. 
-When given a hash from our implementation in Part 1, use this dictionary of uppercase 4-character password hashes to return the actual password. 
+When given a hash from our implementation in Part 1, use this dictionary of uppercase 4-character password hashes to return the actual password. We conducted a similar attack on our implemented password scheme in `Part1/`, using our program in `Part3/`. 
+
+### Build Instructions
+Located inside `Part3/` directory.
 
 ## Part 4: Real-Life Password Crackers
 
 ### Brief Description
-There is a tool called ophcrack that can crack real-life passwords; using LMHash to generate hashes, we can use ophcrack (and rainbow tables if needed) to find the original passwords
-
+There is a tool called ophcrack that can crack real-life passwords; using LMHash to generate hashes, we can use ophcrack (and rainbow tables if needed) to find the original passwords. We conducted an experiment with these resources, and reported our findings in `Part4/`.
