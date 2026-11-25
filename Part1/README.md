@@ -11,7 +11,7 @@
     `./part1`
 
 ### Results
-Resulting output of program is located in `results.txt`.
+Resulting output of program is located in `results.md`.
 
 ### Findings & Observations
 Our results... (write about findings here)
