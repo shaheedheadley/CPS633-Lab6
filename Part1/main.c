@@ -53,11 +53,11 @@ int add_user(char* userid) {
     FILE *fp = fopen(TABLE_FILE, "a");
  
     // ask for password
-    char user_pass[32]; // max 32 char password
+    char user_pass[16]; // max 16 char password
     printf("Enter your desired password: ");
     scanf("%31s", user_pass);
 
-    char user_hash[64];
+    char user_hash[32];
     E(user_pass, user_hash);
 
     printf("%s\n", user_hash);
@@ -65,7 +65,21 @@ int add_user(char* userid) {
     fprintf(fp, "%-15s %-15s %-15s\n", userid, user_pass, user_hash);
 }
 
-int auth_user(char* userid) {
+int auth_user(char* userid, char* user_hash) {
+    // ask for password
+    char pass_input[16]; // max 16 char password
+    printf("Enter your password: ");
+    scanf("%31s", pass_input);
+
+    char hash_output[32];
+    E(pass_input, hash_output);
+    
+    printf("%s, %s", hash_output, user_hash);
+
+    if (strcmp(user_hash, hash_output) == 0) {
+        printf("user authenticated\n");
+    }
+
     return 0;
 }
 
@@ -75,12 +89,14 @@ int find_user(char* userid) {
     FILE *fp = fopen(TABLE_FILE, "r");
     
     char line_buffer[MAX_LINE_LEN];
-    char first_word[MAX_WORD_LEN];
+    char id_input[MAX_WORD_LEN];
+    char user_pass[MAX_WORD_LEN];
+    char user_hash[MAX_WORD_LEN];
 
     while (fgets(line_buffer, sizeof(line_buffer), fp)) {
-        sscanf(line_buffer, "%100s", first_word);
-        if (first_word == userid) {
-            auth_user(userid);
+        sscanf(line_buffer, "%100s %100s %100s", id_input, user_pass, user_hash);
+        if (strcmp(id_input, userid) == 0) {
+            auth_user(userid, user_hash);
             return 1; // user was found and has been authenticated
         }
     }
