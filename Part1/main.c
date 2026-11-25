@@ -21,7 +21,7 @@ int create_table() {
     FILE *fp = fopen(TABLE_FILE, "w");
 
     // table header with dynamic padding
-    fprintf(fp, "%-15s %-15s %-32s\n", "USERID", "PASSWORD", "HASH");
+    fprintf(fp, "%-15s %-32s\n", "USERID", "HASH");
     fprintf(fp, "--------------------------------------------------------------------\n");
 
     fclose(fp);
@@ -44,25 +44,26 @@ int check_file() {
         create_table();
     }
 
+    fclose(fp);
     return 0;
 }
 
 // function to add a new user if user does not exist
-int add_user(char* userid) {
+int add_user(char* user_id) {
     // open the file in write mode
     FILE *fp = fopen(TABLE_FILE, "a");
  
     // ask for password
     char user_pass[16]; // max 16 char password
     printf("Enter your desired password: ");
-    scanf("%31s", user_pass);
+    scanf("%15s", user_pass);
 
     char user_hash[32];
     E(user_pass, user_hash);
 
-    printf("%s\n", user_hash);
-
-    fprintf(fp, "%-15s %-15s %-15s\n", userid, user_pass, user_hash);
+    fprintf(fp, "%-15s %-15s\n", user_id, user_hash);
+    fclose(fp);
+    return 0;
 }
 
 int auth_user(char* userid, char* user_hash) {
@@ -73,13 +74,16 @@ int auth_user(char* userid, char* user_hash) {
 
     char hash_output[32];
     E(pass_input, hash_output);
-    
-    for (int i=0; i < 2; i++) {
+
+    int counter = 0; // reset counter
+
+    while(counter < 2) {
         if (strcmp(user_hash, hash_output) == 0) {
             printf("user authenticated!\n");
             return 0;
         }
-        
+
+        counter++;
         printf("Sorry, try again.\nEnter your password: ");
         scanf("%31s", pass_input);
     }
@@ -89,36 +93,39 @@ int auth_user(char* userid, char* user_hash) {
 }
 
 // function to get a user's hash if the user exists
-int find_user(char* userid) {
+int find_user(char* user_id) {
     // open the file in read mode
     FILE *fp = fopen(TABLE_FILE, "r");
     
     char line_buffer[MAX_LINE_LEN];
-    char id_input[MAX_WORD_LEN];
+    char table_id[MAX_WORD_LEN];
     char user_pass[MAX_WORD_LEN];
     char user_hash[MAX_WORD_LEN];
 
     while (fgets(line_buffer, sizeof(line_buffer), fp)) {
-        sscanf(line_buffer, "%100s %100s %100s", id_input, user_pass, user_hash);
-        if (strcmp(id_input, userid) == 0) {
-            auth_user(userid, user_hash);
+        sscanf(line_buffer, "%100s %100s", table_id, user_hash);
+        if (strcmp(table_id, user_id) == 0) {
+            auth_user(user_id, user_hash);
             return 1; // user was found and has been authenticated
         }
     }
 
-    add_user(userid);
+    add_user(user_id);
+    fclose(fp);
     return 0; // user was not found and has been added
 }
 
 int main() {
     check_file();
     
-    char userid[16]; // max 16 character userid
+    char user_id[16]; // max 16 character userid
 
-    // Take in user id from user
-    printf("Enter your userid: ");
-    scanf("%15s", &userid);
-    
-    // Check if user exists and authenticates them
-    find_user(userid);
+    while(1) { // until user quits program
+        // Take in user id from user
+        printf("Enter your userid: ");
+        scanf("%15s", &user_id);
+        
+        // Check if user exists and authenticates them
+        find_user(user_id);
+    }
 }
