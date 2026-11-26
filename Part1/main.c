@@ -5,7 +5,7 @@
 #include <stdlib.h>
 
 // Constants
-#define TABLE_FILE "../user_table.txt"
+#define TABLE_FILE "user_table.txt"
 #define MAX_LINE_LEN 128
 #define NUM_ATTEMPTS 3
 
@@ -65,6 +65,7 @@ void compute_olm_hash(const char *raw_pass, char *hex_output) {
     }
     hex_output[24] = '\0';
 }
+
 // function to create table if running for the first time
 void create_table() {
     // open the file in write mode
@@ -79,7 +80,10 @@ void create_table() {
 
 // Checks if the file has a table
 void check_file() {
-    FILE *fp = fopen(TABLE_FILE, "w");
+    FILE *fp = fopen(TABLE_FILE, "r");
+    if (fp == NULL) {
+        FILE *fp = fopen(TABLE_FILE, "w");
+    } 
 
     //first character in the file
     int ch = fgetc(fp);
