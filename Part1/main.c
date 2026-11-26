@@ -5,7 +5,7 @@
 #include <stdlib.h>
 
 // Constants
-#define TABLE_FILE "user_table.txt"
+#define TABLE_FILE "../user_table.txt"
 #define MAX_LINE_LEN 128
 #define NUM_ATTEMPTS 3
 
@@ -65,13 +65,30 @@ void compute_olm_hash(const char *raw_pass, char *hex_output) {
     }
     hex_output[24] = '\0';
 }
+// function to create table if running for the first time
+void create_table() {
+    // open the file in write mode
+    FILE *fp = fopen(TABLE_FILE, "w");
 
-// Setup basic flat-file table if missing (file should exists + self explanatory)
+    // table header with dynamic padding
+    fprintf(fp, "%-15s %-32s\n", "USERID", "HASH");
+    fprintf(fp, "--------------------------------------------------------------------\n");
+
+    fclose(fp);
+}
+
+// Checks if the file has a table
 void check_file() {
-    FILE *fp = fopen(TABLE_FILE, "r");
-    if (fp == NULL) {
-        fp = fopen(TABLE_FILE, "w");
+    FILE *fp = fopen(TABLE_FILE, "w");
+
+    //first character in the file
+    int ch = fgetc(fp);
+
+    // check if the character is the EOF (if file is empty)
+    if (ch == EOF) {
+        create_table();
     }
+
     fclose(fp);
 }
 
@@ -92,13 +109,15 @@ void add_user(const char* user_id) {
     }
 
     // 25 char hexadecimal hash using the hashing steps in the document
+    // 12 byte binary hash -> * 2 bytes per ASCII hex value -> 12*2 = 24 byte hex hash
+    // +1 for /0 termination byte at the end of the hash
     char hex_hash[25];
     compute_olm_hash(user_pass, hex_hash);
 
     // append the information to the file
     FILE *fp = fopen(TABLE_FILE, "a");
     if (fp != NULL) {
-        fprintf(fp, "%s %s\n", user_id, hex_hash);
+        fprintf(fp, "%-15s %-15s\n", user_id, hex_hash);
         fclose(fp);
         printf("Account created successfully!\n");
     }
@@ -133,9 +152,9 @@ void update_password(const char* target_uid) {
     while (fgets(line, sizeof(line), fp)) {
         if (sscanf(line, "%63s %63s", current_uid, current_hash) == 2) {
             if (strcmp(current_uid, target_uid) == 0) {
-                fprintf(temp, "%s %s\n", current_uid, new_hex_hash); // write updated
+                fprintf(temp, "%-15s %-15s\n", current_uid, new_hex_hash); // write updated
             } else {
-                fprintf(temp, "%s %s\n", current_uid, current_hash); // keep old
+                fprintf(temp, "%-15s %-15s\n", current_uid, current_hash); // keep old
             }
         }
     }
