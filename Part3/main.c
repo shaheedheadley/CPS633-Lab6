@@ -2,7 +2,7 @@
 #include <ctype.h>
 #include <string.h>
 
-#define HASH_TABLE_FILE "hash_table.txt"
+#define HASH_TABLE_FILE "../hash_table.txt"
 #define MAX_LINE_LEN 128 
 
 // Provided block encryption function (processes a 4-byte block)

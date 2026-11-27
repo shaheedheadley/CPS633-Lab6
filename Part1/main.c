@@ -5,7 +5,7 @@
 #include <stdlib.h>
 
 // Constants
-#define TABLE_FILE "user_table.txt"
+#define TABLE_FILE "../user_table.txt"
 #define MAX_LINE_LEN 128
 #define NUM_ATTEMPTS 3
 
