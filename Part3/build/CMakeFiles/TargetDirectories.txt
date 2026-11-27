@@ -1,3 +1,0 @@
-/home/obsidio/Documents/School/CPS633/CPS633-Lab6/Part3/build/CMakeFiles/part3.dir
-/home/obsidio/Documents/School/CPS633/CPS633-Lab6/Part3/build/CMakeFiles/edit_cache.dir
-/home/obsidio/Documents/School/CPS633/CPS633-Lab6/Part3/build/CMakeFiles/rebuild_cache.dir
