@@ -1,0 +1,48 @@
+=============== TEST 1: CORRECT USER/PASS ===============
+daniel@dtrakas:~/CPS633-Lab6/Part2/build$ ./part2
+enter userid: daniel1
+enter password: daniel1
+Access Granted.
+
+================= TEST 2: INCORRECT PASS ================
+daniel@dtrakas:~/CPS633-Lab6/Part2/build$ ./part2
+enter userid: daniel1
+enter password: wrong
+Access Denied.
+
+================ TEST 3: INCORRECT PASS 2 ===============
+daniel@dtrakas:~/CPS633-Lab6/Part2/build$ ./part2
+enter userid: daniel1
+enter password: daniel2
+Access Denied.
+
+=============== TEST 4: UNREGISTERED USER ===============
+daniel@dtrakas:~/CPS633-Lab6/Part2/build$ ./part2
+enter userid: notintable
+Access Denied: user_id not found
+
+=============== TEST 5: INVALID USERNAME ================
+daniel@dtrakas:~/CPS633-Lab6/Part2/build$ ./part2
+enter userid: hi
+Error: user id must be between 4-31 characters
+
+=============== TEST 6: INVALID PASSWORD ================
+daniel@dtrakas:~/CPS633-Lab6/Part2/build$ ./part2
+enter userid: daniel1
+enter password: toolongofapassword
+Error: password must be between 1-12 characters
+
+============== TEST 7: CORRECT USER/PASS 2 ==============
+daniel@dtrakas:~/CPS633-Lab6/Part2/build$ ./part2
+enter userid: daniel2
+enter password: daniel2
+Access Granted.
+
+=============== TEST 8: INCORRECT PASS 3 ================
+daniel@dtrakas:~/CPS633-Lab6/Part2/build$ ./part2
+enter userid: daniel2
+enter password: incorrect
+Access Denied.
+
+  
+
