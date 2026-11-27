@@ -82,7 +82,7 @@ void create_table() {
 void check_file() {
     FILE *fp = fopen(TABLE_FILE, "r");
     if (fp == NULL) {
-        FILE *fp = fopen(TABLE_FILE, "w");
+        fp = fopen(TABLE_FILE, "w");
     } 
 
     //first character in the file
