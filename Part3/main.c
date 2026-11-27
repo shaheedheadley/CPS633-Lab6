@@ -60,9 +60,10 @@ void add_hash(const char* password) {
     // append the information to the file
     FILE *fp = fopen(HASH_TABLE_FILE, "a");
     if (fp != NULL) {
-        fprintf(fp, "%-15s %-15s\n", password, hex_hash);
+        fprintf(fp, "%-10s %-15s\n", password, hex_hash);
         fclose(fp);
-        printf("Hash %s for password %s added successfully!\n", hex_hash, password);
+        // Note: removed this print to reduce terminal clutter (better for debugging purposes)
+        // printf("Hash %s for password %s added successfully!\n", hex_hash, password);
     }
 }
 
@@ -90,6 +91,9 @@ void generate_hash_table() {
             }
         }
     }
+
+    // Confirm that the hash table is finished
+    printf("Hash table generated!\n");
 }
 
 
@@ -99,12 +103,12 @@ void create_table() {
     FILE *fp = fopen(HASH_TABLE_FILE, "w");
 
     // table header with dynamic padding
-    fprintf(fp, "%-7s %-32s\n", "PASSWORD", "HASH");
+    fprintf(fp, "%-10s %-32s\n", "PASSWORD", "HASH");
     fprintf(fp, "--------------------------------------------------------------------\n");
 
-    generate_hash_table();
-
     fclose(fp);
+    
+    generate_hash_table();
 }
 
 // Checks if the file has a table

@@ -1,0 +1,13 @@
+[obsidio@raoricka build]$ ./part3
+Hash table generated!
+Enter the hash of the password you wish to find: 67F87AE60000000000000000                      
+The password of this hash is: EPSD
+[obsidio@raoricka build]$ ./part3
+Enter the hash of the password you wish to find: 6F6564E10000000000000000
+The password of this hash is: JFGA
+[obsidio@raoricka build]$ ./part3
+Enter the hash of the password you wish to find: 61E2E8E70000000000000000
+The password of this hash is: ACOE
+[obsidio@raoricka build]$ ./part3
+Enter the hash of the password you wish to find: 7FEDE3780000000000000000
+The password of this hash is: UIBP
