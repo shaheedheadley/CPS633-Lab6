@@ -55,7 +55,7 @@ uint32_t xor_func(uint32_t rnd, char* hash) {
 	uint32_t B2int = (uint32_t)strtoul(B2, NULL, 16);
 	uint32_t B3int = (uint32_t)strtoul(B3, NULL, 16);
 
-	// Finally, XOR random number against all three blocks
+	// XOR random number against all three blocks
 	uint32_t result = rnd ^ B1int;
 	result = result ^ B2int;
 	result = result ^ B3int;
